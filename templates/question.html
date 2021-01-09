@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class ="userdata">
+    <h1>Test</h1>
+    <form action="{{ url_for('student_response') }}" method="POST">
+       <label for="selectedquestion">Choose a question:</label>
+        <select name="selectedquestion" id="selectedquestion">
+            {% for question in questions %}
+                {% for q in question %}
+                    <option>{{q["questionTitle"]}}</option>
+                {% endfor %}
+            {% endfor %}
+        </select>
+        <br><br>
+        
+        <label for="studentanswer">Enter your answer:</label><br>
+        <input type="text" id="studentanswer" name="studentanswer"><br>
+        <br><br>
+        <input type="submit" value="Submit">
+      </form>
+      <!--  {% for question in questions %}
+            {% for q in question %}
+                <tr>
+                    <td>{{q["questionTitle"]}}</td>
+                    <td>{{ q["referenceAnswer"] }}</td>
+                </tr>
+                {% endfor %}
+        {% endfor %}
+        -->
+  
+</div>
+        
+            
+       
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class ="userdata">
+    <h1>Answer</h1>
+    {% for r in response %}
+        <p>Question: {{r[1]}}</p>
+        <p>Student Answer: {{r[0]}}</p>
+        <p>Mark Obtained: {{r[3]}}</p>
+    {% endfor %}
+</div>
+{% endblock %}
