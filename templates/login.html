@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+<title>Sign In</title>
+<meta charset = "utf-8">
+
+</head>
+<body>	
+<div class="home">
+	<div class="formbox">
+			<form id="loginForm" action="/login" method="post">	
+				<h1>Automatic Test Evaluator</h1>	
+				<br>		
+				<label> E-mail: 
+					<br>
+					<input id="email" type="text" name="email">			
+				</label><br>
+				<label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+				 Password: 
+				 <br>
+					<input id="password" type="password" name="password">			
+				</label><br>
+								
+				 <p id="errorMessage" class="error">{{error}}</p>
+				 <br>
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="submit" name = 'login' value="login" class="btn">Sign In</button>
+				<button type="submit" name = 'signup' value="signup" class="btn">Sign Up</button>
+				<br />
+					
+					
+		</form>
+	</div>
+</div>
+</body>
+</html>
