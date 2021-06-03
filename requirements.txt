@@ -29,8 +29,8 @@ SQLAlchemy==1.4.17
 textblob==0.15.3
 threadpoolctl==2.1.0
 tokenizers==0.10.3
-torch==1.8.1
-torchvision==0.9.1
+torch @ https://download.pytorch.org/whl/cpu/torch-1.8.1%2Bcpu-cp38-cp38-linux_x86_64.whl
+torchvision @ https://download.pytorch.org/whl/cpu/torchvision-0.9.1%2Bcpu-cp38-cp38-linux_x86_64.whl
 tqdm==4.61.0
 transformers==4.6.1
 typing-extensions==3.10.0.0
