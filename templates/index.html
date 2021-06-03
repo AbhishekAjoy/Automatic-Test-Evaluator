@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class ="userdata">
+    <h1>Users</h1>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>User Type</th>
+        </tr>
+        {% for record in records %}
+            {% for rec in record %}
+            <tr>
+                <td>{{rec["name"]}}</td>
+                <td>{{ rec["email"] }}</td>
+                <td>{{ rec["usertype"] }}</td>
+            </tr>
+            {% endfor %}
+        {% endfor %}
+
+    </table>
+</div>
+        
+            
+       
+{% endblock %}

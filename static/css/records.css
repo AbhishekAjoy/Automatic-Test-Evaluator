@@ -1,0 +1,38 @@
+body            { font-family: Arial, Helvetica, sans-serif;
+    background-image: url(../img/input-bg-05.jpg);   
+    background-size: cover;   
+}
+a, h1, h2       { text-align:center; color:white; }
+h1, h2          { margin: 0; }
+h2              { font-size: 1.2em; }
+
+
+.records {
+  border: 50px;
+  text-align:center;
+  padding: 20px;
+  margin-bottom: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.5em;
+}
+table td, table th {
+  padding-left: 8px;
+}
+table thead tr {
+  height: 60px;
+  background: #FFED86;
+  font-size: 24px;
+}
+table tbody tr {
+  height: 48px;
+  border-bottom: 1px solid #E3F1D5;
+  border-radius: 1%;
+  background-color: #ffff99;
+}
+
+
+tr:nth-child(odd)		{ background-color:#eee; }
+tr:nth-child(even)	{ background-color:#fff; }
+
+tr:hover            { background-color: #ffff99;}

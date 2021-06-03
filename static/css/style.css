@@ -1,0 +1,185 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(/static/img/input-bg-05.jpg);
+    background-size: cover;
+    height: 100vh;
+    overflow: hidden;
+}
+.home{
+    height: 100%;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    position: absolute;
+}
+.formbox{
+   width: 400px; 
+   height: 450px;
+   position: relative;
+   margin: 6% auto;
+   background: #fff;
+   padding: 5px;
+   border-radius: 10px;
+}
+.formbox1{
+    width: 400px; 
+    height: 600px;
+    position: relative;
+    margin: 6% auto;
+    background: #fff;
+    padding: 5px;
+    border-radius: 10px;
+ }
+.formbox form{
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+.formbox h1{
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+}
+.formbox1 form{
+    padding: 0 30px;
+    box-sizing: border-box;
+}
+.formbox1 h1{
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+}
+#name1{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 5px 0;
+}
+#name1 input{
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+#name2{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 5px 0;
+}
+#address{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 5px 0;
+}
+#phone{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 5px 0;
+}
+#email{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 5px 0;
+}
+#p1{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 5px 0;
+
+}
+#p2{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 5px 0;
+
+}
+#sub{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 5px 0;
+}
+#username{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 5px 0;
+}
+.formbox input:not([type=radio]){
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    width: 300px;
+    background: none;
+    outline: none;
+}
+.formbox1 input:not([type=radio]){
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    width: 300px;
+    background: none;
+    outline: none;
+}
+#password{
+    position: relative;
+    border-bottom: 2px solid #adadad;
+    margin: 5px 0;
+}
+.button-box{
+    width: 220px;
+    margin: 40px auto;
+    position: relative;
+    box-shadow: 0 0 20px 9px #ff61241f;
+    border-radius: 30px;
+}
+.btn1{
+    background-color: #4CAF50; /* Green */
+    top: 40%;
+    left: 40%;
+    border: none;
+    color: white;
+    padding: 20px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: absolute;
+    border-radius: 10%;
+}
+.btn2{
+    background-color: #4CAF50; /* Green */
+    top: 40%;
+    left: 60%;
+    border: none;
+    color: white;
+    padding: 20px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: absolute;
+    border-radius: 10%;
+}
+.btn{
+    background-color: #4CAF50;
+    top: auto;
+    left: auto;
+    border: none;
+    color: white;
+    padding: 20px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    position: relative;
+    border-radius: 10%;
+}
+
+#testname{
+    width:200px;
+}
+#name{
+    width:100px;
+}

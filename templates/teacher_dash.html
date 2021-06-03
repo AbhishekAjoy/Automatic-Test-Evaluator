@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title>TEACHERS CORNER</title>
+		<style>
+			.button {
+				display: inline-block;
+				border-radius: 4px;
+				background-color: #22242a;
+				color: #ffffff;
+				text-align: center;
+				border: #050000;
+				font-size: 14px;
+				padding: 5px;
+				width: 100px;
+				transition: all 0.5s;
+				cursor: pointer;
+				margin: 5px;
+			}
+			
+			.button span {
+				cursor: pointer;
+				display: inline-block;
+				position: relative;
+				transition: 0.5s;
+			}
+			
+			.button span:after {
+				content: '\00bb';
+				position: absolute;
+				opacity: 0;
+				top: 0;
+				right: -10px;
+				transition: 0.5s;
+			}
+			
+			.button:hover span {
+				padding-right: 12px;
+			}
+			
+			.button:hover span:after {
+				opacity: 1;
+				right: 0;
+			}
+		</style>
+		<link rel="stylesheet" href="../static/css/style1.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" charset="utf-8"></script>
+	</head>
+	<body>
+
+		<!--wrapper start-->
+		<div class="wrapper">
+			<!--header menu start-->
+			<div class="header">
+				<div class="header-menu">
+					<div class="title">DASHBOARD</div>
+					<div class="sidebar-btn">
+						<i class="fas fa-bars"></i>
+					</div>
+					<ul>
+						<li><!--a href="#"><i class="fas fa-search"></i></a></li-->
+						<li><a href="/login"><i class="fas fa-power-off"></i></a></li>
+					</ul>
+				</div>
+			</div>
+			<!--header menu end-->
+			<!--sidebar start-->
+			<div class="sidebar">
+				<div class="sidebar-menu">
+					<center class="profile">
+						<img src="../static/img/input-bg-01.jpg" alt="">
+						<p>{{info[0][0]}}</p>
+					</center>
+
+					<!--No ol or ul here is concerning-->
+
+					<li class="item" id="createtest">
+						<a href="/createtest" class="menu-btn">
+							<i class="fas fa-edit"></i><span>Create Test <i class="fas fa-chevron"></i></span>
+						</a>
+						
+					</li>
+
+					<li class="item" id="addquestiondb">
+						<a href="/addquestiondb" class="menu-btn">
+							<i class="fas fa-plus-square"></i><span>Add question to database <i class="fas fa-chevron"></i></span>
+						</a>
+						
+					</li>
+
+				</div>
+			</div>
+			<!--sidebar end-->
+			<!--main container start-->
+			<div style="background-image: url('../static/img/input-bg-05.jpg');"> 
+			<div class="main-container">
+			<p id="errorMessage" class="error">{{error}}</p>
+			<form action="{{ url_for('viewtest') }}" method="POST">
+				<input type="hidden" id="testdata" name="testdata" value = "{{info[0][1:]}}">
+				{% set len = info[0] | length %}
+				{% for i in range(1,len) %}
+				<div class="card">
+					<div>
+						{{info[0][i].test_name}}
+					</div>
+					
+						
+					<div style="float: right;">
+						<button  name="delete" value="{{info[0][i].test_id}}" type="submit" class="button"><i class="fas fa-trash-alt"></i></button>
+					</div>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div style="float: right;">
+						<button  name="results" value="{{info[0][i].test_id}}" type="submit" class="button"><span>Results</span></button>
+					</div>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<div style="float: right;">
+						<button  name="view" value="{{info[0][i].test_id}}" type="submit" class="button"><span>View</span></button>
+					</div>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				
+
+				</div>
+				{% endfor %}
+			</form>
+			</div>
+			<!--main container end-->
+		</div>
+		<!--wrapper end-->
+
+		<script type="text/javascript">
+		$(document).ready(function(){
+			$(".sidebar-btn").click(function(){
+				$(".wrapper").toggleClass("collapse");
+			});
+		});
+		</script>
+
+	</body>
+</html>

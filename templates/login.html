@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+<title>Sign In</title>
+<meta charset = "utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>	
+<div class="home">
+	<div class="formbox">
+			<form id="loginForm" action="/login" method="post">	
+				<h1>Automatic Test Evaluator</h1>	
+				<br>		
+				<label> E-mail: 
+					<br>
+					<input id="email" type="text" name="email">			
+				</label><br>
+				<label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
+				 Password: 
+				 <br>
+					<input id="password" type="password" name="password">			
+				</label><br>
+								
+				 <p id="errorMessage" class="error">{{error}}</p>
+				 <br>
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="submit" name = 'login' value="login" class="btn">Sign In</button>
+				<button type="submit" name = 'signup' value="signup" class="btn">Sign Up</button>
+				<br />
+					
+					
+		</form>
+	</div>
+</div>
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="static/js/login.js"></script>
+</body>
+</html>

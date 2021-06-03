@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<head>
+<title>Add question to Database</title>
+<meta charset = "utf-8">
+<style>
+span:before{
+    content:" "; 
+    display:inline-block; 
+    width:30px;
+}
+</style>
+</head>
+<body>	
+<div class="home">
+	<div class="formbox">
+			<form id="addquestiondbform" action="/addquestiondb" method="post">	
+				<h1>Add question to Database</h1>	
+				<br>	
+                <p id="errorMessage" class="error">{{error}}</p>
+                {% set val = "add" %}
+                {% if gottype is not defined %}	
+                    <label for="qtype">Choose question type:</label>
+                    <select id="qtype" name="qtype">
+                    <option value="0">MCQ</option>
+                    <option value="1">Fill in the blanks</option>
+                    <option value="2">Match the following</option>
+                    <option value="3">Descriptive answer</option>
+                    </select> <br><br>
+                {% endif %}
+                {% if gottype is defined %}
+                    {% set button = "Submit" %}
+                    {% if gottype == 0 %}
+                        {% set val = "mcqadd" %}
+                        {% if gottype is defined and opno is not defined %}
+                                <h1>MCQ</h1>
+                                <label>Enter question(without options)
+                                    <br>
+                                    <input id="mcqq" type="text" name="mcqq">	
+                                </label>
+                                <br><br>
+                                <label>Enter no of options
+                                    <br>
+                                    <input id="mcqopno" type="number" name="mcqopno" min = "0">	
+                                </label>
+                                <br><br>
+                        {% endif %}
+                        
+                        {% if opno is defined and gottype is defined %}
+                            {% set val = "mcqadd2" %}
+                            <input type="hidden" id="mno" name="mno" value = "{{opno}}">
+                            <input type="hidden" id="mcqqt" name="mcqqt" value = "{{q}}">
+                            {% set button = "Select" %}
+                                {% set button = "Submit question" %}
+                                {% for i in range(0,opno) %}
+                                    <label>Enter Option {{i+1}}:
+                                        <br>
+                                        <input id="mcqop" type="text" name="{{i+1}}">	
+                                    </label>
+                                    <br><br>
+                                {% endfor %}
+                                <label>Correct option number
+                                    <br>
+                                    <input id="mcqans" type="number" name="mcqans" min = "1" max = "{{opno}}">	
+                                </label>
+                                <br><br>
+                        {% endif %}
+                    {% endif %}
+                    {% if gottype == 1 %}
+                        <h1>Fill in the blanks</h1>
+                        <label>Enter question(till blank)
+                            <br>
+                            <input id="filq" type="text" name="filq">	
+                        </label>
+                        <br><br>
+                        <label>Correct Answer
+                            <br>
+                            <input id="filans" type="text" name="filans">	
+                        </label>
+                        <br><br>
+                    {% endif %}
+                    {% if gottype == 2 %}
+                    {% set val = "matchsub1" %}
+                        <h1>Match the following</h1>
+                        {% if matchnum is not defined %}
+                            <label>Enter no of options(on one side)
+                                <br>
+                                <input id="matchno" type="number" name="matchno">	
+                            </label>
+                            <br><br>
+                        {% endif %}
+                        {% if matchnum is defined %}
+                        {% set val = "matchsub2" %}
+                            <input type="hidden" id="matno" name="matno" value = "{{matchnum}}">
+                            <p style="display: inline-block; width: 300px;">Correct Answer index</p>
+                            <p style="display: inline-block; width: 300px;"> Left Side</p>
+                            <p style="display: inline-block; width: 300px;">Right Side</p>
+                            <br><br>
+                            {% for i in range(0,matchnum) %}
+                                {% set index = i | string %}
+                                {% set mleft = "mleft" + index %}
+                                {% set mcorrect = "mcorrect" + index %}
+                                {% set mright = "mright" + index %}
+                                <input id="{{mcorrect}}" type="number" name="{{mcorrect}}" min = "1" max = "{{matchnum}}" style="display: inline-block; width: 50px;">
+                                <span> </span>
+                                <span> </span>
+                                <span> </span>
+                                <span> </span>
+                                <span> </span>
+                                <span> </span>
+                               
+                                
+                                <input id="{{mleft}}" type="text" name="{{mleft}}" style="display: inline-block; width: 200px;">
+                                <span> </span>
+                                <span> </span>
+                                <p style="display: inline;">{{i + 1}}. </p>
+                                <input id="{{mright}}" type="text" name="{{mright}}" style="display: inline-block; width: 200px;">
+                                <br><br>
+                            {% endfor %}
+                            <br><br>
+                        {% endif %}    
+                    {% endif %}
+                    {% if gottype == 3 %}
+                        <h1>Descriptive Answer</h1>
+                        <label>Enter question
+                            <br>
+                            <input id="descq" type="text" name="descq">	
+                        </label>
+                        <br><br>
+                        <label>Correct Answer
+                            <br>
+                            <input id="descans" type="text" name="descans">	
+                        </label>
+                        <br><br>
+                    {% endif %}
+                {% else %}
+                    {% set button = "Select" %}
+                {% endif %}
+				<!-- <label> No of Questions 
+					<br>
+					<input id="name" type="number" name="qno">			
+				</label><br><br>
+				
+				<button type="submit" name = 'createtest' value="createtest" class="btn">Create Test</button> -->
+                <input type="hidden" id="bop" name="bop" value = "{{val}}">	
+                <button type="submit" name = "{{val}}" value="{{val}}" class="btn">{{button}}</button>
+		</form>
+	</div>
+</div>
+
+</body>
+</html>

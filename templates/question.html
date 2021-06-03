@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+
+{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="../static/css/style1.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+<div class ="userdata">
+    <center><h1 style="display: inline;">TEST</h1></center>
+    <h6 style="display: inline;"> <span id="timer"></span></h6>
+    <!--Change the below url to go back to dashboard and go to this page only when student clicks view result-->
+    <form action="{{ url_for('student_response') }}" method="POST">
+       <!-- <label for="selectedquestion">Choose a question:</label>
+        <select name="selectedquestion" id="selectedquestion"> -->
+            {% for question in questions %}
+                {% for q in question %}
+                   
+                    <input type="hidden" id="selectedquestion" name="selectedquestion" value = "{{q["questionTitle"]}}">
+                    <!-- MCQ -->
+                    
+                    {% if q["questionType"] == 0 %}
+
+                    <div class = "q">
+                        <p style="display: inline;">{{loop.index}}. {{q["questionTitle"]}}</p>
+                        <br><br>
+                        {% set x = q["options"].split(',') %}
+                        {% for i in x %}
+                            {% set index = q["question_id"] | string %}
+                            {% set option = "option" + index %}
+                            <br>
+                            <input type="radio" id="{{option}}" name="{{option}}" value="{{i}}">
+                            <label for="{{option}}">{{i}}</label><br>
+                        {% endfor %}
+                        <br><br>
+                    {% endif %}
+                    </div>
+                    <!-- Fill in the blanks -->
+                    
+                    {% if q["questionType"] == 1 %}
+
+                    <div class = "q1">
+                        <p style="display: inline;">{{loop.index}}. {{q["questionTitle"]}}</p>
+                        <p style="display: inline;">____________</p>
+                        <br>
+                        <label for="fillanswer">Enter your answer:</label><br><br>
+                        <input type="text" id="fillanswer" name="fillanswer">
+                        <br><br>
+                    {% endif %}
+                    </div>
+                    <!-- Match the following -->
+                    
+                        {% if q["questionType"] == 2 %}
+
+                        <div class = "q2">
+                        <p>{{loop.index}}. Match the following</p><br><br>
+                        {% set x = q["questionTitle"].split(',') %}
+                        {% set y = q["options"].split(',') %}
+                        {% set len = x|length %}
+                        <input type="hidden" id="matchmark" name="matchmark" value = "{{len}}">
+                        {% for i in range(len) %}
+                            {% set index = q["question_id"] | string %}
+                            {% set matchans = "matchans" + index %}
+                            <input type="number" id="matchans" name="{{matchans}}" size = "1" min = "1" max="{{len}}">
+                            <p style="display: inline-block; width: 300px;">{{x[i]}}</p>
+                            <p style="display: inline;">{{i + 1}}. </p>
+                            <p style="display: inline-block; width: 100px;">{{y[i]}}</p>
+                            <br><br>
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                    <!-- Descriptive -->
+                    
+                    {% if q["questionType"] == 3 %}
+
+                    <div class = "q">
+                        <p style="display: inline;">{{loop.index}}. {{q["questionTitle"]}}</p>
+                        <br><br>
+                        <textarea  id="descanswer" name="descanswer"></textarea></textarea><br>
+                        <br><br>
+                    {% endif %}
+                    </div>
+                    
+                {% endfor %}
+            {% endfor %}
+       <!--  </select> -->
+        <br>
+        
+       
+        <input id ="btn" type="submit" value="Submit">
+      </form>
+      <!--  {% for question in questions %}
+            {% for q in question %}
+                <tr>
+                    <td>{{q["questionTitle"]}}</td>
+                    <td>{{ q["referenceAnswer"] }}</td>
+                </tr>
+                {% endfor %}
+        {% endfor %}
+        -->
+  
+</div>
+        
+<script>
+    (function () {
+
+        var clockElement = document.getElementById( "timer" );
+
+        function updateClock ( clock ) {
+            var status = 0; /* 0:Before test 1: Live 2: Complete*/
+            var endYear = {{endTime.year |tojson}};
+            var endMonth = {{endTime.month |tojson}};
+            var endDay = {{endTime.day |tojson}};
+            
+            var startHour = {{startTime.hour |tojson}};
+            var startMin = {{startTime.minute |tojson}};
+            var startSec = {{startTime.second |tojson}};
+            var endHour = {{endTime.hour |tojson}};
+            var endMin = {{endTime.minute |tojson}};
+            var endSec = {{endTime.second |tojson}};
+            var endDate = new Date(endYear,endMonth - 1,endDay,endHour,endMin,endSec)
+            var startDate = new Date(endYear,endMonth - 1,endDay,startHour,startMin,startSec)
+            var now = new Date();
+            var timeString = "";
+            if(now > startDate){
+                if(now > endDate){
+                    /* timeString.concat("Test ended on: ",endDate.toDateString()); */
+                    clock.innerHTML = "Test ended on " + endDate.toDateString()+ " " + endDate.toLocaleTimeString();
+                }
+                else{
+                    /* timeString.concat("Time Left: ",(endDate - now).toDateString()); */
+                    difference = endDate.getTime() - now.getTime();
+                    var hoursDifference = Math.floor(difference/1000/60/60);
+                    difference -= hoursDifference*1000*60*60
+
+                    var minutesDifference = Math.floor(difference/1000/60);
+                    difference -= minutesDifference*1000*60
+
+                    var secondsDifference = Math.floor(difference/1000);
+                    timer = "Time Left: " + hoursDifference.toString() + " hours: " + minutesDifference.toString() + " minutes: " + secondsDifference.toString()+ " seconds";
+                    clock.innerHTML = timer;
+                }
+               
+            }
+            else{
+                /* timeString.concat("Test Starts on: ",startDate.toDateString()); */
+                clock.innerHTML = "Test starts on " + startDate.toDateString()+ " " + startDate.toLocaleTimeString();
+            }
+        }
+
+        setInterval(function () {
+            updateClock( clockElement );
+        }, 1000);
+
+    }());
+</script>   
+   
+       
+{% endblock %}

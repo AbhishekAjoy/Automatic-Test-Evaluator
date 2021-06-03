@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="../static/css/style1.css">
+    <link rel="stylesheet" href="../static/css/records.css">
+	</head>
+	<body>
+
+<div>
+  <h1>{{testname}}</h1>
+  <form action="{{ url_for('view_answers') }}" method="POST">
+  <div>
+  <table class=records> 
+    <thead> 
+    <tr> 
+        <th>Student ID</th> 
+		<th>Name</th> 
+        <th>Score</th> 
+		<th>Answers</th> 
+    </tr> 
+    </thead> 
+    <tbody> 
+        {% for row in table %}  
+            <tr> 
+                <td>{{row["student_id"]}}</td> 
+				<td>{{row["student_name"]}}</td> 
+                <td>{{row["score"]}}</td> 
+				<td><button  name="view" value="{{row["student_id"]}}" type="submit" class="button"><span>View</span></button></td> 
+            </tr> 
+        {% endfor %} 
+    </tbody> 
+  </table> 
+  </div>
+  </form>
+</div>
+</div>
+<!--main container end-->
+</div>
+<!--wrapper end-->
+
+<script type="text/javascript">
+$(document).ready(function(){
+$(".sidebar-btn").click(function(){
+  $(".wrapper").toggleClass("collapse");
+});
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<head>
+<title>Sign In</title>
+<meta charset = "utf-8">
+<link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>	
+<div class="home">
+	<div class="formbox1">
+			<form id="loginForm" action="/signup" method="post">	
+				<h1>Create a new account</h1>	
+				<br>		
+				<label> E-mail: 
+					<br>
+					<input id="email" type="text" name="email">			
+				</label><br>
+				<label> Name: 
+					<br>
+					<input style = "position: relative;border-bottom: 2px solid #adadad;margin: 5px 0;" id="name" type="text" name="name">			
+				</label><br>
+				<label>
+				 Password: 
+				 <br>
+					<input id="password" type="password" name="password">			
+				</label><br>
+				<span style="white-space:nowrap">
+				<input style="height: 1em; width:auto;" type="radio" id="student" name="usertype" value="student">
+				<label for="student">Student</label>
+				</span>
+				<br>
+				<span style="white-space:nowrap">
+				<input style="height: 1em; width:auto;" type="radio" id="teacher" name="usertype" value="teacher">
+				<label for="teacher">Teacher</label>
+				</span>				
+				 <p id="errorMessage" class="error">{{error}}</p>
+				 <br>
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="submit" name = 'back' value="back" class="btn">Back</button>
+				<button type="submit" name = 'signup' value="signup" class="btn">Sign Up</button>
+				<br />
+					
+					
+		</form>
+	</div>
+</div>
+</body>
+</html>

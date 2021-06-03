@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+<title>Create Test</title>
+<meta charset = "utf-8">
+<link rel="stylesheet" href="../static/css/style1.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+</head>
+<body>	
+<div class="home">
+	<div class="formbox">
+			<form id="createtestform" action="/createtest" method="post">	
+				<h1>Create Test</h1>	
+				<br>	
+                <p id="errorMessage" class="error">{{error}}</p>	
+				{% if qno is not defined %}
+					<label>Test name 
+						<br>
+						<input id="testname" type="text" name="testname">			
+					</label><br><br>
+					<label>Enter Date of Test(DD:MM:YYYY)
+						<br>
+						<input id="date" type="text" name="date">			
+					</label><br><br>
+					<label>Enter Start Time (specify time in HH:MM format(24 hour))
+						<br>
+						<input id="start" type="text" name="start">			
+					</label><br><br>
+					<label>Enter End Time (specify time in HH:MM format(24 hour))
+						<br>
+						<input id="end" type="text" name="end">			
+					</label><br><br>
+
+
+					<label> No of Questions 
+						<br>
+						<input id="name" type="number" name="qno">			
+					</label><br><br>
+					<input type="radio" id="randomize" name="randomize" value="randomize">
+					<label for="randomize">Randomize questions</label><br>
+					<input type="radio" id="select" name="select" value="select">
+					<label for="select">Select questions</label><br>
+					<button type="submit" name = 'createtest' value="createtest" class="btn">Create Test</button>	
+					<button type="submit" name = 'cancel' value="cancel" class="btn">Cancel</button>
+				{% endif %}
+				{% if qno is defined %}
+				<input type="hidden" id="qno" name="qno" value = "{{qno}}">
+				<input type="hidden" id="tname" name="tname" value = "{{testname}}">
+				<input type="hidden" id="st" name="st" value = "{{s}}">
+				<input type="hidden" id="dt" name="dt" value = "{{d}}">
+				<input type="hidden" id="et" name="et" value = "{{e}}">
+					{% set no = qno | int %}
+					{% set type = ['MCQ' , 'Fill in blanks','Match the following','Descriptive'] %}
+					{% for i in range(0,no) %}
+					{% set index = i | string %}
+					{% set selq = "question" + index %}
+					<label for="{{selq}}">Select Question {{i+1}} :</label>
+					<select name="{{selq}}" id="{{selq}}">
+						{% for question in questions %}
+						{% set x = question["questionType"] | int %}
+								<option value = {{question["question_id"]}}>{{type[x]}} : {{question["questionTitle"]}}</option>
+						{% endfor %}
+					</select>
+					<br><br>
+					{% endfor %}
+					
+					<button type="submit" name = 'createtest2' value="createtest2" class="btn">Create Test</button>
+				{% endif %}  
+				 
+		</form>
+	</div>
+</div>
+
+</body>
+</html>
