@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, redirect, request, session
+from flask import send_file
 from flask_sqlalchemy import SQLAlchemy
 import csv
+import pandas as pd
 from numpy import genfromtxt
 from pathlib import Path
 import datetime
@@ -71,14 +73,14 @@ def WriteUserToDb(records):
 
 
 
-def DisplayUserFromDb():
+""" def DisplayUserFromDb():
     user = User.query.all()
     try:
         app.logger.info(type(user))
     except: 
         app.logger.info("select query Failed")
 
-
+ """
 
 def initdb():
     with open("datasets/userdata.csv") as user_csv:
@@ -222,7 +224,6 @@ def student_response():
         #Getting form data from question.html
         selected_question = request.form.getlist('selectedquestion')
         descanswer = request.form.getlist('descanswer')
-        app.logger.info(descanswer)
         #The option here is the option selected by the student
         
         
@@ -242,7 +243,6 @@ def student_response():
             if q.questionType == 0:#MCQ
                 opid = "option" + str(q.question_id)
                 option.append(request.form.get(opid))
-                app.logger.info(option)
                 ans = option[mcqcount]
                 if option[mcqcount] == q.referenceAnswer:
                     score = score + q.marks
@@ -278,8 +278,6 @@ def student_response():
                 max_score = max_score + q.marks
                 scores.append(score)
                 record['score'] = score
-                app.logger.info(matchans)
-                app.logger.info('#############')
             else:#Descriptive
                 
                 response = []
@@ -289,7 +287,6 @@ def student_response():
                 response.append(q.referenceAnswer)
 
                 try:
-                    app.logger.info(response)
                     if ans != '':
                         markObtained = round(evaluatemarks(response)*q.marks,0) #executes function in evaluator.py and returns marks
                     else:
@@ -301,7 +298,6 @@ def student_response():
                     app.logger.info(e)
                     app.logger.info("descriptive answer evaluation error")
                 scores.append(score)
-                app.logger.info(score)
                 record['score'] = score
 
             answers.append(ans)
@@ -314,14 +310,6 @@ def student_response():
     except:
         app.logger.info("Failed to submit data")
     return redirect('/dashboard')
-    """     result.append(refans)
-        result.append(answers)
-        app.logger.info(answers)
-        result.append(qtype)
-        result.append(matchops)
-        result.append(scores)
-        result.append(max_score)
-    return render_template('display.html',response = [result])#Page after answer submission """
 
 
 
@@ -371,12 +359,6 @@ def index():
         initdb()
     #DisplayUserFromDb()#testing
     return redirect('/login')
-
-    """  question_list = [1007,1036,1037,1021,1038]
-    questions = ExtractQFromDb(question_list)
-    #question.logger.info(question_list)
-    return render_template('question.html',questions = [questions]) """
-    #return render_template('index.html',records=[records])#dictionaries can't be passed
     
 
 
@@ -408,11 +390,10 @@ def login():
                 session['usertype'] = record.usertype
                 session['name'] = record.name
                 session['user_id'] = record.user_id
-                app.logger.info(record)
                 #return render_template('login.html', error = "Logged in!")
                 return redirect('/dashboard')
-        if request.form.get("signup"):
-            return redirect('/signup')
+        """ if request.form.get("signup"):
+            return redirect('/signup') """
 
     return render_template('login.html', error = " ")
 
@@ -427,7 +408,6 @@ def addquestiondb():
         opstr = ""
         if request.form.get("add"):
             x = request.form.get("qtype")
-            app.logger.info(x)
             if x:
                 qtype = int(x)
                 return render_template('addquestiondb.html',gottype = int(x))
@@ -439,7 +419,6 @@ def addquestiondb():
 
             if request.form.get("mcqopno"):
                 y = request.form.get("mcqopno")
-                app.logger.info(y)
                 mcqq = request.form.get("mcqq")
                 if y:
                     mcqno = int(y)
@@ -454,9 +433,7 @@ def addquestiondb():
             opstr = request.form.get("1")
             for i in range(2,mcqno+1):
                 opstr = opstr + ',' + request.form.get(str(i))
-            app.logger.info(opstr)
             mcqans = request.form.get(request.form.get("mcqans")) 
-            app.logger.info(mcqans) 
 
             if mcqq == "":
                 return render_template('addquestiondb.html', error = "Enter a valid question")
@@ -492,8 +469,6 @@ def addquestiondb():
             qtype = 1
             fillq = request.form.get("filq")
             fillans = request.form.get("filans")
-            app.logger.info(fillq)
-            app.logger.info(fillans)
             if fillq == "":
                 return render_template('addquestiondb.html', error = "Enter a valid question")
             if fillans == "":
@@ -624,15 +599,17 @@ def create_test():
             start = request.form.get("start")
             end = request.form.get("end")
             fstart = start.split(":")
+            app.logger.info(fstart)
             fend = end.split(":")
-            fdate = date.split(":")
+            fdate = date.split("-")
+            app.logger.info(fdate)
             try:
-                starttime = datetime.datetime(int(fdate[2]),int(fdate[1]),int(fdate[0]),int(fstart[0]),int(fstart[1]))
+                starttime = datetime.datetime(int(fdate[0]),int(fdate[1]),int(fdate[2]),int(fstart[0]),int(fstart[1]))
             except:
                 return render_template('createtest.html', error = "Please enter correct start time in HH:MM format")
             
             try:
-                endtime = datetime.datetime(int(fdate[2]),int(fdate[1]),int(fdate[0]),int(fend[0]),int(fend[1]))
+                endtime = datetime.datetime(int(fdate[0]),int(fdate[1]),int(fdate[2]),int(fend[0]),int(fend[1]))
             except:
                 return render_template('createtest.html', error = "Please enter correct end time in HH:MM format")
             if test_name == "":
@@ -651,30 +628,24 @@ def create_test():
             date = request.form.get("dt")
             start = start.split(':')
             end = end.split(":")
-            date = date.split(":")
-            app.logger.info(start)
-            app.logger.info(end)
+            date = date.split("-")
             app.logger.info(date)
             try:
-                starttime = datetime.datetime(int(date[2]),int(date[1]),int(date[0]),int(start[0]),int(start[1]))
+                starttime = datetime.datetime(int(date[0]),int(date[1]),int(date[2]),int(start[0]),int(start[1]))
             except:
-                return render_template('createtest.html', error = "Please enter correct start time in HH:MM format")
+                return render_template('createtest.html', error = "2Please enter correct start time in HH:MM format")
             
             try:
-                endtime = datetime.datetime(int(date[2]),int(date[1]),int(date[0]),int(end[0]),int(end[1]))
+                endtime = datetime.datetime(int(date[0]),int(date[1]),int(date[2]),int(end[0]),int(end[1]))
             except:
                 return render_template('createtest.html', error = "Please enter correct end time in HH:MM format")
             test_name = request.form.get("tname")
-            app.logger.info(starttime)
             for i in range(0,no_of_questions):
                 question_list.append(int(request.form.get("question" + str(i))))
            
-        app.logger.info(question_list)
         string_ints = [str(i) for i in question_list]
         qlist = ",".join(string_ints)
-        app.logger.info(qlist)
         x = Test.query.all()
-        app.logger.info(x)
         if not x:
             testid = 1
         else:
@@ -688,8 +659,7 @@ def create_test():
             "question_list": qlist,
             "start_time": starttime,
             "end_time" : endtime
-            })
-        app.logger.info(records)    
+            })  
         WriteTestToDb(records)
         return redirect('/dashboard')
             
@@ -709,7 +679,6 @@ def viewtest():
             start = test[0].start_time
             question_list = map(int, x.split(','))
             questions = ExtractQFromDb(question_list)
-            app.logger.info(question_list)
             return render_template('question.html',questions = [questions],endTime = end,startTime = start)
             
         elif request.form.get('delete'):
@@ -717,7 +686,6 @@ def viewtest():
             Test.query.filter_by(test_id=y).delete()
             Response.query.filter_by(test_id=y).delete()
             db.session.commit()
-            app.logger.info(y)
             return redirect('/dashboard')
             
         elif request.form.get('results'):
@@ -760,7 +728,6 @@ def view_answers():
     if session['usertype']==1:
         student_id = session['user_id']
         session['test_id'] = request.form.get('results')
-        app.logger.info(get_answers(student_id))
         return render_template('display.html',response = [get_answers(student_id)])
     else:
         if request.method == "POST":
@@ -774,7 +741,6 @@ def view_answers():
                 student_id = request.form.get("stud_id")
                 student_id = int(student_id)
                 index = request.form.get("index")
-                app.logger.info(index)
                 scorechange = "scorechange" + index
                 try:
                     response = Response.query.filter_by(question = qid,student_id = student_id,test_id = session['test_id']).first()
@@ -836,7 +802,6 @@ def dashboard():
         response = []
         response.append(session['name'])
         completedTests = Response.query.filter_by(student_id = session['user_id'])
-        app.logger.info(completedTests)
         tests = Test.query.filter_by()
         for test in tests:
             testComplete = False
@@ -868,8 +833,10 @@ def dashboard():
                 })
 
         return render_template('teacher_dash.html', info = [response])
-    
-    
+    elif session['usertype'] == 3:
+        response = []
+        response.append(session['name'])
+        return render_template('admin_dash.html', info = [response])
         
 @app.route('/results',methods=['POST','GET'])   
 def results(): 
@@ -877,7 +844,6 @@ def results():
         response = []
         response.append(session['name'])
         completedTests = Response.query.filter_by(student_id = session['user_id'])
-        app.logger.info(completedTests)
         tests = Test.query.filter_by()
         for test in tests:
             testComplete = False
@@ -907,6 +873,59 @@ def results():
                 "score":result.score,
                 })
         return render_template('results.html', testname = testname, table = data)
-        
+
+
+
+@app.route('/download-user-csv',methods=['POST','GET'])   
+def downloadfile():
+    return send_file('datasets/adduser.csv',
+                     mimetype='text/csv',
+                     attachment_filename='adduser.csv',
+                     as_attachment=True)
+
+
+
+@app.route('/upload-user-csv',methods=['POST','GET'])   
+def uploadfile():
+    response = []
+    response.append(session['name'])
+    if request.method == 'POST':
+        files = request.files['file']
+        data = pd.read_csv(files)
+        records = []
+        uid = db.session.query(User.user_id).order_by(User.user_id.desc()).first().user_id
+        try:
+            for i in range(0,len(data.name)):
+                u = User.query.filter_by(email = data.email[i]).first()
+                if u is None:
+                    uid = uid + 1
+                    records.append({
+                                "user_id":uid,
+                                "name":data.name[i],
+                                "email": data.email[i],
+                                "password": data.password[i],
+                                "usertype": int(data.usertype[i])
+                                })
+            if not records:
+                return render_template('admin_dash.html',error = "No users were added",info = [response])                    
+            WriteUserToDb(records)
+            return render_template('admin_dash.html',error = "User successfully added",info = [response])
+        except :
+            return render_template('admin_dash.html',error = "Error in Uploaded File",info = [response])
+
+
+@app.route('/delete-user',methods=['POST','GET'])   
+def deleteUser():
+    response = []
+    response.append(session['name'])
+    if request.method == "POST":
+        delemail = request.form.get("delemail")
+        u = User.query.filter_by(email = delemail).first()
+        if u is not None:
+            User.query.filter_by(email=delemail).delete()
+            db.session.commit()
+            return render_template('admin_dash.html',error = "User successfully deleted",info = [response]) 
+        else:
+            return render_template('admin_dash.html',error = "email not found",info = [response]) 
 if __name__ == "__main__":
     app.run(debug=True)

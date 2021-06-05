@@ -8,11 +8,13 @@ span:before{
     display:inline-block; 
     width:30px;
 }
+
 </style>
 </head>
 <body>	
+    <link rel="stylesheet" href="../static/css/style.css">
 <div class="home">
-	<div class="formbox">
+	<div class="formbox2">
 			<form id="addquestiondbform" action="/addquestiondb" method="post">	
 				<h1>Add question to Database</h1>	
 				<br>	
@@ -35,12 +37,12 @@ span:before{
                                 <h1>MCQ</h1>
                                 <label>Enter question(without options)
                                     <br>
-                                    <input id="mcqq" type="text" name="mcqq">	
+                                    <textarea id="mcqq" type="text" name="mcqq"></textarea>	
                                 </label>
                                 <br><br>
                                 <label>Enter no of options
                                     <br>
-                                    <input id="mcqopno" type="number" name="mcqopno" min = "0">	
+                                    <input id="mcqopno" type="number" name="mcqopno">	
                                 </label>
                                 <br><br>
                         {% endif %}
@@ -60,7 +62,7 @@ span:before{
                                 {% endfor %}
                                 <label>Correct option number
                                     <br>
-                                    <input id="mcqans" type="number" name="mcqans" min = "1" max = "{{opno}}">	
+                                    <input id="mcqans" type="number" name="mcqans">	
                                 </label>
                                 <br><br>
                         {% endif %}
@@ -69,7 +71,7 @@ span:before{
                         <h1>Fill in the blanks</h1>
                         <label>Enter question(till blank)
                             <br>
-                            <input id="filq" type="text" name="filq">	
+                            <textarea id="filq" type="text" name="filq"></textarea>
                         </label>
                         <br><br>
                         <label>Correct Answer
@@ -100,7 +102,7 @@ span:before{
                                 {% set mleft = "mleft" + index %}
                                 {% set mcorrect = "mcorrect" + index %}
                                 {% set mright = "mright" + index %}
-                                <input id="{{mcorrect}}" type="number" name="{{mcorrect}}" min = "1" max = "{{matchnum}}" style="display: inline-block; width: 50px;">
+                                <input id="{{mcorrect}}" type="number" name="{{mcorrect}}" style="display: inline-block; width: 50px;">
                                 <span> </span>
                                 <span> </span>
                                 <span> </span>
@@ -123,12 +125,12 @@ span:before{
                         <h1>Descriptive Answer</h1>
                         <label>Enter question
                             <br>
-                            <input id="descq" type="text" name="descq">	
+                            <textarea id="descq" type="text" name="descq"></textarea>
                         </label>
                         <br><br>
                         <label>Correct Answer
                             <br>
-                            <input id="descans" type="text" name="descans">	
+                            <textarea id="descans" type="text" name="descans">	</textarea>
                         </label>
                         <br><br>
                     {% endif %}

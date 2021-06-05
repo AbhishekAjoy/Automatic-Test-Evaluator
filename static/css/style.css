@@ -5,13 +5,13 @@ body{
     background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)),url(/static/img/input-bg-05.jpg);
     background-size: cover;
     height: 100vh;
-    overflow: hidden;
+    overflow: scroll;
 }
 .home{
     height: 100%;
     width: 100%;
     background-position: center;
-    background-size: cover;
+    background-size:contain;
     position: absolute;
 }
 .formbox{
@@ -32,6 +32,15 @@ body{
     padding: 5px;
     border-radius: 10px;
  }
+ .formbox2{
+    width: 70em; 
+    height: 45em;
+    position: relative;
+    margin: auto;
+    background: #fff;
+    padding: 5px;
+    border-radius: 10px;
+ }
 .formbox form{
     padding: 0 40px;
     box-sizing: border-box;
@@ -46,6 +55,15 @@ body{
     box-sizing: border-box;
 }
 .formbox1 h1{
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+}
+.formbox2 form{
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+.formbox2 h1{
     text-align: center;
     padding: 0 0 20px 0;
     border-bottom: 1px solid silver;
@@ -122,6 +140,14 @@ body{
     background: none;
     outline: none;
 }
+.formbox2 input:not([type=radio]){
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    width: 300px;
+    background: none;
+    outline: none;
+}
 #password{
     position: relative;
     border-bottom: 2px solid #adadad;
@@ -182,4 +208,17 @@ body{
 }
 #name{
     width:100px;
+}
+select
+{
+    width:300px;
+    background-color: yellowgreen;
+    top: 14px;
+    right: 10px;
+    border: 6px solid transparent;
+}
+textarea{
+    width: 320px;
+    height :150px
+    
 }
