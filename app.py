@@ -1,6 +1,7 @@
 from flask import Flask, render_template, url_for, redirect, request, session
 from flask import send_file
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import func
 import csv
 import pandas as pd
 from numpy import genfromtxt
@@ -9,7 +10,7 @@ import datetime
 import evaluator
 from numpy import genfromtxt
 import random
-
+import string
 
 
 app = Flask(__name__)
@@ -254,7 +255,8 @@ def student_response():
 
             elif q.questionType == 1:#Fill in the blanks
                 ans = fillanswer[fillcount]
-                if fillanswer[fillcount] == q.referenceAnswer:
+                ref = q.referenceAnswer
+                if fillanswer[fillcount].lower() == ref.lower():
                     score = score + q.marks
                 max_score = max_score + q.marks
                 scores.append(score)
@@ -398,7 +400,22 @@ def login():
     return render_template('login.html', error = " ")
 
 
-
+@app.route('/deletequestiondb',methods=['POST','GET'])
+def deletequestiondb():
+    response = []
+    response.append(session['name'])
+    if request.method == "POST":
+        questionname = request.form.get("delquestionname")
+        try:
+            q = Question.query.filter(func.lower(Question.questionTitle) == func.lower(questionname)).first()
+            if q is not None:
+                Question.query.filter_by(questionTitle = q.questionTitle).delete()
+                return render_template('teacher_dash.html', info = [response], error = "Question successfully deleted")
+            else:
+                return render_template('teacher_dash.html', info = [response], error = "Could not find Question")
+            
+        except Exception as e:
+                return render_template('teacher_dash.html', info = [response], error = e)
 @app.route('/addquestiondb',methods=['POST','GET'])
 def addquestiondb():
     if request.method == "POST":
@@ -679,7 +696,7 @@ def viewtest():
             start = test[0].start_time
             question_list = map(int, x.split(','))
             questions = ExtractQFromDb(question_list)
-            return render_template('question.html',questions = [questions],endTime = end,startTime = start)
+            return render_template('question.html',questions = [questions],endTime = end,startTime = start,utype = session['usertype'])
             
         elif request.form.get('delete'):
             y = request.form.get('delete')
@@ -891,7 +908,10 @@ def uploadfile():
     response.append(session['name'])
     if request.method == 'POST':
         files = request.files['file']
-        data = pd.read_csv(files)
+        try:
+            data = pd.read_csv(files)
+        except:
+            return render_template('admin_dash.html',error = "Please click browse to upload file",info = [response]) 
         records = []
         uid = db.session.query(User.user_id).order_by(User.user_id.desc()).first().user_id
         try:
@@ -911,7 +931,7 @@ def uploadfile():
             WriteUserToDb(records)
             return render_template('admin_dash.html',error = "User successfully added",info = [response])
         except :
-            return render_template('admin_dash.html',error = "Error in Uploaded File",info = [response])
+            return render_template('admin_dash.html',error = "Error in format of Uploaded File",info = [response])
 
 
 @app.route('/delete-user',methods=['POST','GET'])   
@@ -922,6 +942,8 @@ def deleteUser():
         delemail = request.form.get("delemail")
         u = User.query.filter_by(email = delemail).first()
         if u is not None:
+            uid = User.query.filter_by(email = delemail).first().user_id
+            Response.query.filter_by(student_id=uid).delete()
             User.query.filter_by(email=delemail).delete()
             db.session.commit()
             return render_template('admin_dash.html',error = "User successfully deleted",info = [response]) 

@@ -1,6 +1,10 @@
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from textblob import TextBlob, Word, Blobber
+import string
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 """ #from dandelion import DataTXT 
 #import spacy
 import nltk
@@ -145,6 +149,18 @@ def cosine_sim(X,Y):
             c+= l1[i]*l2[i] 
     cosine = c / float((sum(l1)*sum(l2))**0.5)
     return(cosine)  """
+
+#remove irrelevant words like is, the, etc
+def remove_stopwords(text):
+    sw = stopwords.words('english')
+    words = [w for w in text if w not in sw]
+    return words
+
+def tokenize(text):
+    text = word_tokenize(text)
+    return text
+
+
 def sentence_polarity(text1, text2):
     t1 = TextBlob(text1)
     t2 = TextBlob(text2)
@@ -162,8 +178,15 @@ def sentence_polarity(text1, text2):
 def evaluate(qapair):
 
     studentAnswer = qapair[0]
+    question = qapair[1]
+    question = tokenize(question)
+    question = remove_stopwords(question)
     referenceAnswer = qapair[2]
     polarity = sentence_polarity(referenceAnswer,studentAnswer)
+    #Replacing words from question from the answer
+    for i in question:
+        studentAnswer = studentAnswer.replace(i,"")
+        referenceAnswer = referenceAnswer.replace(i,"")
     sentences = []
     sentences.append(studentAnswer)
     sentences.append(referenceAnswer)

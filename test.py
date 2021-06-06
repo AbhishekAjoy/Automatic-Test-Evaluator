@@ -1,4 +1,24 @@
 
+import string
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+def remove_stopwords(text):
+    sw = stopwords.words('english')
+    words = [w for w in text if w not in sw]
+    return words
+def tokenize(text):
+    text = word_tokenize(text)
+    return text
+x = "Baeyer's reagent is a solution of Potassium Permanganate."
+y = "What is Baeyer's reagent"
+y = tokenize(y)
+y = remove_stopwords(y)
+print(y)
+for i in y:
+    print(i)
+    x = x.replace(i,"")
+print(x)
 """ import string
 import nltk
 import random
@@ -234,11 +254,11 @@ print("Jaccard: {}   Cosine: {}".format(jaccard_distance(a,b), cosine_similarity
 
  #################################################### """
 
-
+""" 
 import datetime
 y = datetime.datetime.utcnow()
 x = datetime.datetime.utcnow()+datetime.timedelta(hours=5.5)
 
 ts = x - y
 print(ts)
-
+ """

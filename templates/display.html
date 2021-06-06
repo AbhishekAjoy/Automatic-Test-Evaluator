@@ -47,7 +47,7 @@
                         {% set changescoreid = "changescore" + index %}
                         {% set hidebuttonid = "hidebutton" + index %}
                         {% set editbuttonid = "editbutton" + index %}
-                        <form style="display: none;" id="{{formid}}" action="{{ url_for('view_answers') }}" method="POST">
+                        <form style="display: none;" id="{{formid}}" action="{{ url_for('view_answers') }}" method="POST" autocomplete="off">
                             <label for="scorechange">Enter the new score:</label>
                             <input type="number" id="{{scorechangeid}}" name="{{scorechangeid}}"  min = "0" max = "{{qmarks}}"/>
                             <input type="hidden" id="stud_id" name="stud_id" value = "{{edit}}">

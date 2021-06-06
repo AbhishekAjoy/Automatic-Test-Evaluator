@@ -12,7 +12,7 @@
     <center><h1 style="display: inline;">TEST</h1></center>
     <h6 style="display: inline;"> <span id="timer"></span></h6>
     <!--Change the below url to go back to dashboard and go to this page only when student clicks view result-->
-    <form action="{{ url_for('student_response') }}" method="POST">
+    <form name = "testresponse" action="{{ url_for('student_response') }}" method="POST" autocomplete="off">
        <!-- <label for="selectedquestion">Choose a question:</label>
         <select name="selectedquestion" id="selectedquestion"> -->
             {% for question in questions %}
@@ -113,7 +113,7 @@
             var endYear = {{endTime.year |tojson}};
             var endMonth = {{endTime.month |tojson}};
             var endDay = {{endTime.day |tojson}};
-            
+            var usertype = {{utype |tojson}};
             var startHour = {{startTime.hour |tojson}};
             var startMin = {{startTime.minute |tojson}};
             var startSec = {{startTime.second |tojson}};
@@ -128,6 +128,9 @@
                 if(now > endDate){
                     /* timeString.concat("Test ended on: ",endDate.toDateString()); */
                     clock.innerHTML = "Test ended on " + endDate.toDateString()+ " " + endDate.toLocaleTimeString();
+                    if(usertype == 1){
+                        document.forms["testresponse"].submit();
+                    }
                 }
                 else{
                     /* timeString.concat("Time Left: ",(endDate - now).toDateString()); */

@@ -75,7 +75,12 @@
 					</center>
 
 					<!--No ol or ul here is concerning-->
-
+					<li class="item" id="maindashboard">
+						<a href="/dashboard" class="menu-btn">
+							<i class="fas fa-desktop"></i><span>View Tests <i class="fas fa-chevron"></i></span>
+						</a>
+						
+					</li>
 					<li class="item" id="createtest">
 						<a href="/createtest" class="menu-btn">
 							<i class="fas fa-edit"></i><span>Create Test <i class="fas fa-chevron"></i></span>
@@ -90,14 +95,36 @@
 						
 					</li>
 
+					<li class="item" id="deletequestiondb">
+						<a href="#dashboard" class="menu-btn" onclick = "deleteq()">
+							<i class="fas fa-trash-alt"></i><span>Delete question from database <i class="fas fa-chevron"></i></span>
+						</a>
+						
+					</li>
+
 				</div>
 			</div>
 			<!--sidebar end-->
 			<!--main container start-->
 			<div style="background-image: url('../static/img/input-bg-05.jpg');"> 
-			<div class="main-container">
-			<p id="errorMessage" class="error">{{error}}</p>
-			<form action="{{ url_for('viewtest') }}" method="POST">
+			<div id = "delcard" style = "display: none;" class="main-container">
+				<div class="card">
+					<form action = "{{ url_for('deletequestiondb') }}" method="POST" autocomplete="off">
+						<label>Enter question to be deleted
+							<br>
+							<input id="delquestionname" type="text" name="delquestionname">			
+						</label><br><br>
+						<button type="submit" name = 'deleteq' value="deleteq" class="btn">Delete question</button>
+					</form>
+				</div>
+			</div>
+			<div id = "maincard" class="main-container">
+			{% if error is defined %}
+			<div class = "card">
+				<p id="errorMessage" class="error">{{error}}</p>
+			</div>
+			{% endif %}
+			<form action="{{ url_for('viewtest') }}" method="POST" autocomplete="off">
 				<input type="hidden" id="testdata" name="testdata" value = "{{info[0][1:]}}">
 				{% set len = info[0] | length %}
 				{% for i in range(1,len) %}
@@ -136,6 +163,14 @@
 				$(".wrapper").toggleClass("collapse");
 			});
 		});
+		</script>
+		<script>
+			function deleteq()
+			{  
+					document.getElementById("maincard").style.display="none";
+					document.getElementById("delcard").style.display="block";
+					
+			}
 		</script>
 
 	</body>
